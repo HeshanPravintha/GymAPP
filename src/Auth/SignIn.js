@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text, Button, Container, Item, Input } from 'native-base'
 import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
-
+import { connect } from 'react-redux'
 const { height, width } = Dimensions.get('window');
 
 
-export default class signin extends Component {
+class SignIn extends Component {
 
     static navigationOptions = {
         header: null,
     };
 
     render() {
+        console.log(this.props)
         return (
 
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -148,3 +149,13 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
 })
+
+
+const mapStateToProps = state => {
+    return {
+      test: state.user.redux,
+    };
+  };
+  
+
+export default connect(mapStateToProps, {})(SignIn);
