@@ -4,6 +4,7 @@ import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 
 import { connect } from 'react-redux'
 const { height, width } = Dimensions.get('window');
 
+import { userLogin  } from '../actions';
 
 class SignIn extends Component {
 
@@ -40,7 +41,8 @@ class SignIn extends Component {
                         <Text style={styles.txtForgetPw}>Forget Password</Text>
                     </View>
                     <TouchableOpacity onPress={()=>{
-                        this.props.navigation.navigate('Home')
+                        this.props.userLogin()
+                        //this.props.navigation.navigate('Home')
                     }}>
                     <View style={styles.btnSignIn}>
                         <Text style={styles.txtSignIn}>Sign In</Text>
@@ -158,4 +160,4 @@ const mapStateToProps = state => {
   };
   
 
-export default connect(mapStateToProps, {})(SignIn);
+export default connect(mapStateToProps, {userLogin})(SignIn);
