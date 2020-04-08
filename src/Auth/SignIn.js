@@ -1,164 +1,71 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { View, StyleSheet, Image, Dimensions, KeyboardAvoidingView } from 'react-native'
-import { Form, Text, Button, Input, Item } from 'native-base'
-import { MaterialIndicator } from 'react-native-indicators';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
-import Modal from 'react-native-modalbox';
-
-
+import { View, Text, Button, Container, Item , Input} from 'native-base'
+import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 
 const { height, width } = Dimensions.get('window');
 
-import { userLogin } from '../../action';
 
+export default class signin extends Component {
 
-class SignIn extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            email: null,
-            password: '',
-            loader: false,
-            error: false
-
-        };
-    }
-
-
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerShown: false
-        }
-
-
-
+    static navigationOptions = {
+        header: null,
     };
 
-    componentDidMount() {
-        console.log(this.props, 'Props')
-    }
-
-
-    renderErrorModal = () => {
+    render() {
         return (
+            
+            <View style={{ flex: 1 , backgroundColor : '#fff' }}>
 
-            <Modal
-                style={{
-                    height: 60,
-                    backgroundColor: 'red',
-                }}
-                position={'bottom'}
-                entry={'bottom'}
-                isOpen={this.state.error}
-                backdrop={true}
-                backdropOpacity={0}
-                backdropPressToClose={true}
-            >
 
-                <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <Text style={{ textAlign: 'center', color: 'white', fontWeight: '600', fontSize: 12 }}>{this.props.signInErr}</Text>
+                <View style={styles.logotext}>
+
+                    <Text style={styles.logotext}>Logo</Text>
                 </View>
 
-            </Modal>
-        )
-
-    }
-
-
-    render() {
-        console.log(this.state.email, 'EMAIL')
-        console.log(this.state.password.length)
-        return (
-            <View style={styles.mainContainer}>
-
-                <KeyboardAvoidingView style={styles.mainContainer}
-                    behavior={height < 700 ? "position" : 'padding'}
-                >
-
-
-                    <View style={styles.imgView}>
-                        <Image
-                            source={require('../../../images/logo.png')}
-                            style={styles.imgLogo}
-                        />
-                        <Text style={styles.imgText}>Citizen Speak</Text>
-
-                    </View>
-                    <View style={styles.txtHelloView}>
-                        <Text style={styles.txtHello}>Sign In</Text>
-                    </View>
-
-                    <View>
-                        <View style={styles.emailView}>
-                            <Item regular style={styles.inputItem}>
-                                <Input onChangeText={email => {
-                                    this.setState({
-                                        email: email
-                                    })
-                                }} style={styles.inputEmail} placeholder='Email Address' />
+                <View style={styles.signin}>
+                    
+                    <Text style={styles.signin}>Sign In</Text>
+                </View>
+<View>
+                <View style={styles.email}>
+                <Item>
+                <Input placeholder='Email' />
+                </Item>
+                </View>
+</View>
+                <View style={styles.password}>
+                <Item>
+                                <Input placeholder='Password' secureTextEntry={true} />
                             </Item>
-                        </View>
+                </View>
+                <View style={styles.fixToText}>
+                    <Button bordered 
+                    style={{height: 40 , 
+                        borderColor:'#4FBCB7',
+                        
+                        width : width * 0.4 ,
+                        justifyContent: 'center'
+                    }}
+                        title="Forget Password?"
+                        onPress={() => Alert.alert('Left button pressed')}
+                    >
+<Text style={{textAlign: 'center' , fontSize: 12}}>Forget Password?</Text>
 
-                        <View style={styles.pwView}>
-                            <Item regular style={styles.inputItem}>
-                                <Input onChangeText={password => {
-                                    this.setState({
-                                        password: password
-                                    })
-                                }} style={styles.inputEmail} placeholder='Password' secureTextEntry={true} />
-                            </Item>
-                        </View>
-
-
-                    </View>
-
-
-
-
-                    <View style={styles.bottomContainer}>
-                        <Button
-                            onPress={() => {
-                                this.setState({
-                                    loader: true,
-                                    error :false
-                                })
-
-                                this.props.userLogin(this.state.email, this.state.password, (res, err) => {
-                                    if (res) {
-                                        this.props.navigation.navigate('Home')
-                                        this.setState({
-                                            loader: false
-                                        })
-                                    } else {
-                                        this.setState({
-                                            loader: false,
-                                            error: true
-                                        })
-                                    }
-
-                                })
-
-                            }}
-                            full
-                            disabled={!this.state.email || (this.state.password.length < 6)}
-                            style={(!this.state.email || this.state.password.length < 6) ? styles.btnSignINDisable : styles.btnSignIN}
-
-                        >
-                            {this.state.loader ? (
-                                <MaterialIndicator
-                                    color="white"
-                                    size={25}
-                                    trackWidth={2}
-                                />
-                            ) : <Text style={styles.txtSignIn}>Sign In</Text>}
-                        </Button>
-
-                        <View style={styles.signupHintView}>
-                            <Text style={styles.txtNewHere}>
-                                New here ?
+                    </Button>
+                    <Button 
+                    
+                        style={{height: 40 ,
+                            backgroundColor: '#4FBCB7',
+                             width : width * 0.4 , 
+                            justifyContent: 'center'}}
+                        title="Sign In"
+                        onPress={() => Alert.alert('Right button pressed')}>
+                        <Text style={{textAlign: 'center' , fontSize: 12}}>Sign In</Text>
+                    </Button>
+                </View>
+                <View style={styles.signupHintView}>
+                            <Text style={styles.txtNewaccount}>
+                                Dont you have account?
                             </Text>
 
                             <TouchableOpacity onPress={() => {
@@ -170,128 +77,74 @@ class SignIn extends Component {
                             </TouchableOpacity>
 
                         </View>
-
-                        <View>
-                            <Text style={styles.txtRights}>All Right Reserved By Citizen Speak</Text>
-                        </View>
-
-                    </View>
-
-                </KeyboardAvoidingView>
-
-                {this.renderErrorModal()}
-
             </View>
 
-        )
+
+        );
+
     }
+
 }
 
-const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        backgroundColor: 'white',
-        justifyContent: 'space-between'
-    },
-    imgView: {
-        alignSelf: 'center'
-    },
-    imgLogo: {
-        marginTop: 60,
-        //borderColor: 'red',
-        //borderWidth : 1,
-        height: 150,
-        width: 225
-    },
-    imgText: {
-        textAlign: 'center',
-        fontSize: 22,
-        fontWeight: '500'
-    },
-    txtHelloView: {
-        marginBottom: 10,
-        //  borderColor : 'red',
-        //borderWidth : 1,
-        alignSelf: 'center',
-        justifyContent: 'center'
-    },
-    txtHello: {
-        color: '#464646',
-        fontSize: 24,
-        textAlign: 'center',
-        fontWeight: 'bold',
 
-        // borderColor : 'red',
-        //borderWidth : 1
-    },
-    bottomContainer: {
-        justifyContent: 'flex-end'
-    },
-    btnSignIN: {
-        borderRadius: 10,
-        marginLeft: 40,
-        marginRight: 40,
-        marginBottom: 10,
-        backgroundColor: '#FDD62B',
-    },
-    btnSignINDisable: {
-        borderRadius: 10,
-        marginLeft: 40,
-        marginRight: 40,
-        marginBottom: 10,
-        backgroundColor: '#b5b5b5',
-    },
-    txtSignIn: {
-        fontSize: 20,
-        fontWeight: '700',
-        color: '#464646'
-    },
-    signupHintView: {
-        flexDirection: 'row',
+const styles = StyleSheet.create({
+    logotext: {
+        fontWeight: 'bold',
+        fontSize: 50,
+        marginTop: 65,
+        backgroundColor: '#fff',
+        alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 30,
     },
-    txtNewHere: {
-        color: '#464646',
-        fontWeight: '600',
+    signin: {
+        fontWeight: 'bold',
+        marginTop: 65,
+        fontSize: 25,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    email: {
+        marginTop: 1,
+        padding: 15,
+        fontSize: 16,
+        backgroundColor: '#fff',
+        //alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+    password: {
+        marginTop: 0,
+        padding: 15,
+        fontSize: 16,
+        backgroundColor: '#fff',
+        //alignItems: 'center',
+        justifyContent: 'center',
+    },
+    fixToText: {
+        marginLeft : 20,
+        marginRight: 20,
+        flexDirection: 'row',
+//        padding: 60, *Bad Code Too High Padding
+        justifyContent: 'space-between',
+   
+},
+signupHintView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 30,
+},
+    txtNewaccount: {
+        
+        color: 'grey',
+        fontSize: 16,
         textAlign: 'center',
     },
     txtSignup: {
-        fontWeight: '600',
-        color: '#2E89E4',
+        fontSize: 16,
+        
+        color: '#4FBCB7',
         marginLeft: 5
     },
-    txtRights: {
-        color: '#464646',
-        marginBottom: 20,
-        textAlign: 'center',
-        fontSize: 12
-    },
-    emailView: {
-        marginBottom: 20
-    },
-    pwView: {
-        marginBottom: 20
-    },
-    inputItem: {
-        marginLeft: 40,
-        marginRight: 40,
-        borderRadius: 10,
-    },
-    inputEmail: {
-        fontSize: 14,
-        borderColor: '#464646',
-        //borderWidth: 1,
-        //borderRadius : 10,
-    }
+
 })
-
-
-const mapStateToProps = state => {
-    return {
-        login: state.user.userLogin,
-        signInErr : state.user.signUperr
-    };
-};
-
-export default connect(mapStateToProps, { userLogin })(SignIn);
