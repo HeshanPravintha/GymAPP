@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Container, Item , Input} from 'native-base'
+import { View, Text, Button, Container, Item, Input } from 'native-base'
 import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 
 const { height, width } = Dimensions.get('window');
@@ -13,70 +13,57 @@ export default class signin extends Component {
 
     render() {
         return (
-            
-            <View style={{ flex: 1 , backgroundColor : '#fff' }}>
 
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <View style={styles.logoView}>
+                    <Text style={styles.logoText}>Logo</Text>
+                </View>
+                <View style={styles.formView}>
+                    <View>
+                        <Item>
+                            <Input placeholder='Email' />
+                        </Item>
+                    </View>
 
-                <View style={styles.logotext}>
+                    <View style={styles.inputPasswordView}>
+                        <Item>
+                            <Input placeholder='Password' secureTextEntry={true} />
+                        </Item>
+                    </View>
 
-                    <Text style={styles.logotext}>Logo</Text>
                 </View>
 
-                <View style={styles.signin}>
-                    
-                    <Text style={styles.signin}>Sign In</Text>
-                </View>
-<View>
-                <View style={styles.email}>
-                <Item>
-                <Input placeholder='Email' />
-                </Item>
-                </View>
-</View>
-                <View style={styles.password}>
-                <Item>
-                                <Input placeholder='Password' secureTextEntry={true} />
-                            </Item>
-                </View>
-                <View style={styles.fixToText}>
-                    <Button bordered 
-                    style={{height: 40 , 
-                        borderColor:'#4FBCB7',
-                        
-                        width : width * 0.4 ,
-                        justifyContent: 'center'
-                    }}
-                        title="Forget Password?"
-                        onPress={() => Alert.alert('Left button pressed')}
-                    >
-<Text style={{textAlign: 'center' , fontSize: 12}}>Forget Password?</Text>
+                <View style={styles.buttonView}>
 
-                    </Button>
-                    <Button 
-                    
-                        style={{height: 40 ,
-                            backgroundColor: '#4FBCB7',
-                             width : width * 0.4 , 
-                            justifyContent: 'center'}}
-                        title="Sign In"
-                        onPress={() => Alert.alert('Right button pressed')}>
-                        <Text style={{textAlign: 'center' , fontSize: 12}}>Sign In</Text>
-                    </Button>
+                    <View style={styles.btnForgetPw}>
+                        <Text style={styles.txtForgetPw}>Forget Password</Text>
+                    </View>
+                    <TouchableOpacity onPress={()=>{
+                        this.props.navigation.navigate('Home')
+                    }}>
+                    <View style={styles.btnSignIn}>
+                        <Text style={styles.txtSignIn}>Sign In</Text>
+                    </View>
+                    </TouchableOpacity>
+                  
+
                 </View>
-                <View style={styles.signupHintView}>
-                            <Text style={styles.txtNewaccount}>
-                                Dont you have account?
-                            </Text>
 
-                            <TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate('SignUp')
-                            }}>
-                                <Text style={styles.txtSignup}>
-                                    Sign up
-                            </Text>
-                            </TouchableOpacity>
+                <View style={styles.signupView}>
+                    <Text style={styles.txtMsg}>
+                        Dont You Have Acocunt ?
+                 </Text>
+                    <Text style={styles.txtSignUp}>
+                        SignUp
+                 </Text>
+                </View>
+ 
+                <View style={{flex: 1, justifyContent: 'flex-end' , marginBottom: 20}}>
+                    <Text style={styles.txtCopyright}>
+                            All Rights Reserved By Gym App
+                 </Text>
+                </View>
 
-                        </View>
             </View>
 
 
@@ -88,63 +75,76 @@ export default class signin extends Component {
 
 
 const styles = StyleSheet.create({
-    logotext: {
-        fontWeight: 'bold',
-        fontSize: 50,
-        marginTop: 65,
-        backgroundColor: '#fff',
-        alignItems: 'center',
+    logoView: {
+        marginTop: 30,
+        alignSelf: 'center',
+        backgroundColor: 'red',
         justifyContent: 'center',
+        height: 200,
+        width: 200
     },
-    signin: {
-        fontWeight: 'bold',
-        marginTop: 65,
-        fontSize: 25,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    email: {
-        marginTop: 1,
-        padding: 15,
-        fontSize: 16,
-        backgroundColor: '#fff',
-        //alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    password: {
-        marginTop: 0,
-        padding: 15,
-        fontSize: 16,
-        backgroundColor: '#fff',
-        //alignItems: 'center',
-        justifyContent: 'center',
-    },
-    fixToText: {
-        marginLeft : 20,
-        marginRight: 20,
-        flexDirection: 'row',
-//        padding: 60, *Bad Code Too High Padding
-        justifyContent: 'space-between',
-   
-},
-signupHintView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 30,
-},
-    txtNewaccount: {
-        
-        color: 'grey',
-        fontSize: 16,
+    logoText: {
         textAlign: 'center',
+        fontSize: 32,
+        fontWeight: 'bold'
     },
-    txtSignup: {
-        fontSize: 16,
-        
+    formView: {
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20
+    },
+    inputPasswordView: {
+        marginTop: 10
+    },
+    buttonView: {
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    btnForgetPw: {
+        height: 50,
+        width: width * 0.4,
+        borderWidth: 2,
+        borderColor: '#4FBCB7',
+        justifyContent: 'center'
+    },
+    txtForgetPw: {
+        fontSize: 14,
+        textAlign: 'center',
         color: '#4FBCB7',
-        marginLeft: 5
+        fontWeight: 'bold'
     },
-
+    btnSignIn: {
+        height: 50,
+        width: width * 0.4,
+        backgroundColor: '#4FBCB7',
+        justifyContent: 'center'
+    },
+    txtSignIn: {
+        fontSize: 14,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    signupView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 20
+    },
+    txtMsg: {
+        textAlign: 'center',
+        fontSize: 14
+    },
+    txtSignUp: {
+        textAlign: 'center',
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#4FBCB7',
+    },
+    txtCopyright: {
+        textAlign: 'center',
+        fontSize: 12
+    },
 })
