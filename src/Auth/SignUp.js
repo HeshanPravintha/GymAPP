@@ -1,90 +1,87 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Container, Item , Input} from 'native-base'
+import { View, Text, Button, Container, Item, Input } from 'native-base'
 import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
+import { connect } from 'react-redux'
 
 const { height, width } = Dimensions.get('window');
 
+import { createUser , saveUserData } from '../actions';
 
-export default class SignUp extends Component {
+class SignUp extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: null,
+            password: '',
+            loader: false,
+            error: false
+
+        };
+    }
     static navigationOptions = {
         header: null,
     };
 
     render() {
+        console.log(this.props)
         return (
-            
-            <View style={{ flex: 0 , backgroundColor : "white" }}>
 
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <View style={styles.logoView}>
+                    <Text style={styles.logoText}>Logo</Text>
+                </View>
+                <View>
+                    <Text style={styles.mainSignUptxt}>Sign Up</Text>
+                </View>
+                <View style={styles.formView}>
+                <View>
+                        <Item>
+                            <Input placeholder='Name' />
+                        </Item>
+                    </View>
+                    <View style={styles.inputEmailView}>
+                        <Item>
+                            <Input placeholder='Email' />
+                        </Item>
+                    </View>
 
-                <View style={styles.logotext}>
+                    <View style={styles.inputPasswordView}>
+                        <Item>
+                            <Input placeholder='Password' secureTextEntry={true} />
+                        </Item>
+                    </View>
 
-                    <Text style={styles.logotext}>Logo</Text>
                 </View>
 
-                <View style={styles.signup}>
-                    <Text style={styles.signup}>Sign Up</Text>
-                </View>
-                
-<View>
-                <View style={styles.name}>
-                <Item>
-                <Input placeholder='Name' />
-                </Item>
-                </View>
-                <View style={styles.email}>
-                <Item>
-                <Input placeholder='Email' />
-                </Item>
-                </View>
-                <View style={styles.mobile}>
-                <Item>
-                <Input placeholder='Mobile Number' />
-                </Item>
-                </View>
-</View>
-                <View style={styles.password}>
-                <Item>
-                                <Input placeholder='Password' secureTextEntry={true} />
-                            </Item>
-                </View>
-                <View style={styles.fixToText}>
-                    <Button bordered 
-                    style={{height: 40 , 
-                        borderColor:'#4FBCB7',
-                        
-                        width : width * 0.4 ,
-                        justifyContent: 'center'
-                    }}
-                        title="Forget Password?"
-                        onPress={() => Alert.alert('Left button pressed')}
-                    >
-<Text style={{textAlign: 'center' , fontSize: 12}}>Forget Password?</Text>
-
-                    </Button>
-                    <Button onPress={() => {
+                <View style={styles.buttonView}>
+                        <TouchableOpacity onPress={() => {
                                 this.props.navigation.navigate('MoreDetails')
                             }}>
-                    
-                        
-                        <Text style={{textAlign: 'center' , fontSize: 12}}>Sign In</Text>
-                    </Button>
-                </View>
-                <View style={styles.signupHintView}>
-                            <Text style={styles.txtNewaccount}>
-                                Do you have account?
-                            </Text>
+                        <View style={styles.btnSignUp}>
+                        <Text style={styles.txtSignUp}>Sign Up</Text>
+                        </View>
+                        </TouchableOpacity>
+                        </View>
 
-                            <TouchableOpacity onPress={() => {
+                <View style={styles.signinView}>
+                    <Text style={styles.txtMsg}>
+                        Dont You Have Acocunt ?
+                 </Text>
+                 <TouchableOpacity onPress={() => {
                                 this.props.navigation.navigate('SignIn')
                             }}>
-                                <Text style={styles.txtSignup}>
-                                    Sign In
-                            </Text>
-                            </TouchableOpacity>
+                    <Text style={styles.txtSignIn}> Sign In</Text>
+                    </TouchableOpacity>
+                </View>
+ 
+                <View style={{flex: 1, justifyContent: 'flex-end' , marginBottom: 20}}>
+                    <Text style={styles.txtCopyright}>
+                            All Rights Reserved By Gym App
+                 </Text>
+                </View>
 
-                        </View>
-                        
             </View>
 
 
@@ -96,81 +93,88 @@ export default class SignUp extends Component {
 
 
 const styles = StyleSheet.create({
-    logotext: {
-        fontWeight: 'bold',
-        fontSize: 50,
-        marginTop: 65,
-        backgroundColor: '#fff',
-        alignItems: 'center',
+    logoView: {
+        marginTop: 30,
+        alignSelf: 'center',
+        backgroundColor: 'red',
         justifyContent: 'center',
+        height: 200,
+        width: 200
     },
-    signup: {
+    logoText: {
+        textAlign: 'center',
+        fontSize: 32,
+        fontWeight: 'bold'
+    },
+    mainSignUptxt: {
         fontWeight: 'bold',
         marginTop: 40,
         fontSize: 25,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    
-name: {
-    marginTop: 1,
-    padding: 15,
-    fontSize: 16,
-    backgroundColor: '#fff',
-    //alignItems: 'center',
-    justifyContent: 'center',
-},
-    email: {
-    marginTop: 1,
-        padding: 15,
-        fontSize: 16,
-        backgroundColor: '#fff',
-        //alignItems: 'center',
-        justifyContent: 'center',
-    },       
-        mobile: {
-            marginTop: 1,
-                padding: 15,
-                fontSize: 16,
-                backgroundColor: '#fff',
-                //alignItems: 'center',
-                justifyContent: 'center',
-
-    },
-    password: {
-        marginTop: 0,
-        padding: 15,
-        fontSize: 16,
-        backgroundColor: '#fff',
-        //alignItems: 'center',
-        justifyContent: 'center',
-    },
-    fixToText: {
-        marginLeft : 20,
-        marginRight: 20,
-        flexDirection: 'row',
-//        padding: 60, *Bad Code Too High Padding
-        justifyContent: 'space-between',
-   
-},
-signupHintView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 30,
-},
-    txtNewaccount: {
-        
-        color: 'grey',
-        fontSize: 16,
         textAlign: 'center',
-    },
-    txtSignup: {
-        fontSize: 16,
-        
-        color: '#4FBCB7',
-        marginLeft: 5
+        justifyContent: 'center',
+
+
     },
 
+    formView: {
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20
+    },
+    inputEmailView: {
+        marginTop: 10
+    },
+    inputPasswordView: {
+        marginTop: 10
+    },
+    buttonView: {
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    btnSignUp: {
+        height: 50,
+        width: width * 0.9,
+        backgroundColor: '#4FBCB7',
+        justifyContent: 'center'
+    },
+    txtSignUp: {
+        fontSize: 14,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        color: 'white'
+    },
+    signinView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 20
+    },
+    txtMsg: {
+        textAlign: 'center',
+        fontSize: 14
+    },
+    txtSignIn: {
+        textAlign: 'center',
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#4FBCB7',
+    },
+    txtCopyright: {
+        textAlign: 'center',
+        fontSize: 12
+    },
 })
+
+
+const mapStateToProps = state => {
+    return {
+      test: state.user.redux,
+    };
+  };
+  
+
+
+  export default connect(mapStateToProps, { createUser , saveUserData })(SignUp);

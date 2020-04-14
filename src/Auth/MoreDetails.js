@@ -1,64 +1,81 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Container, Item , Input} from 'native-base'
+import { View, Text, Button, Container, Item, Input } from 'native-base'
 import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 
 const { height, width } = Dimensions.get('window');
 
 
-export default class MoreDetails extends Component {
+class MoreDetails extends Component {
 
     static navigationOptions = {
         header: null,
     };
 
     render() {
+        console.log(this.props)
         return (
-            
-            <View style={{ flex: 0 , backgroundColor : "white" }}>
 
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
 
-                <View style={styles.logotext}>
-
-                    <Text style={styles.text1}>Hello Heshan,</Text>
+                <View>
+                    <Text style={styles.hellotext}>Hello Heshan,</Text>
                 </View>
 
-                <View style={styles.signup}>
+                <View style={styles.welcometext}>
                     <Text style={styles.text2}>Welcome to Gym App we need more details about you!</Text>
                 </View>
-                
-<View>
-                <View style={styles.Age}>
-                <Item regular>
-                <Input placeholder='Age' />
-                </Item>
+                <View style={styles.formView}>
+                    <View style={styles.NameView}>
+                        <Item regular>
+                            <Input placeholder='Name' />
+                        </Item>
+                    </View>
+                    <View style={styles.GenderView}>
+                        <Item regular>
+                            <Input placeholder='Gender' />
+                        </Item>
+                    </View>
+                    <View style={styles.GymidView}>
+                        <Item regular>
+                            <Input placeholder='Gym ID' />
+                        </Item>
+                    </View>
+                    <View style={styles.WeightView}>
+                        <Item regular>
+                            <Input placeholder='Weight' />
+                        </Item>
+                    </View>
+                    <View style={styles.HeightView}>
+                        <Item regular>
+                            <Input placeholder='Height' />
+                        </Item>
+                    </View>
+                    <View style={styles.ContactView}>
+                        <Item regular>
+                            <Input placeholder='Contact No' />
+                        </Item>
+                    </View>
+                    
+
+            
+
                 </View>
-                <View style={styles.Gender}>
-                <Item regular>
-                <Input placeholder='Gender' />
-                </Item>
+
+                <View style={styles.buttonView}>
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.navigate('MoreDetails')
+                    }}>
+                        <View style={styles.btnNext}>
+                            <Text style={styles.txtNext}>Next</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.Gymid}>
-                <Item regular>
-                <Input placeholder='Gym ID' />
-                </Item>
-            </View>
-            <View style={styles.Weight}>
-                <Item regular>
-                <Input placeholder='Weight' />
-                </Item>
+                <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 20 }}>
+                    <Text style={styles.txtCopyright}>
+                        All Rights Reserved By Gym App
+                 </Text>
                 </View>
-                <View style={styles.Height}>
-                <Item regular>
-                <Input placeholder='Height' />
-                </Item>
-                </View>
-</View>
-                <View>
-                    <Button bordered onPress={() => {
-                               this.props.navigation.navigate('Home')
-                            }}>
-            <Text>Click Me!</Text>
-          </Button></View>
+
             </View>
 
 
@@ -70,82 +87,68 @@ export default class MoreDetails extends Component {
 
 
 const styles = StyleSheet.create({
-    text1: {
+    hellotext: {
         fontWeight: 'bold',
         fontSize: 30,
         marginTop: 45,
-        marginRight: 5,
+        marginLeft: 20,
         backgroundColor: '#fff',
         //alignItems: 'center',
         justifyContent: 'center',
     },
-    text2: {
+
+    welcometext: {
         marginTop: 4,
-        fontSize: 15,
+        marginLeft: 20,
+        fontSize: 2,
         backgroundColor: '#fff',
-        alignItems: 'center',
         justifyContent: 'center',
     },
-
-    
-    Age: {
-    marginTop: 1,
-    padding: 15,
-    fontSize: 16,
-    backgroundColor: '#fff',
-    //alignItems: 'center',
-    justifyContent: 'center',
-},
-Gender: {
-    marginTop: 1,
-        padding: 15,
-        fontSize: 16,
-        backgroundColor: '#fff',
-        //alignItems: 'center',
-        justifyContent: 'center',
-    },       
-    Gymid: {
-            marginTop: 1,
-                padding: 15,
-                fontSize: 16,
-                backgroundColor: '#fff',
-                //alignItems: 'center',
-                justifyContent: 'center',
-
+    formView: {
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 20
     },
-    Weight: {
-        marginTop: 0,
-        padding: 15,
-        fontSize: 16,
-        backgroundColor: '#fff',
-        //alignItems: 'center',
-        justifyContent: 'center',
+    NameView: {
+        marginTop: 12
     },
-    Height: {
-        marginTop: 0,
-        padding: 15,
-        fontSize: 16,
-        backgroundColor: '#fff',
-        //alignItems: 'center',
-        justifyContent: 'center',
-   
-},
-signupHintView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 30,
-},
-    txtNewaccount: {
-        
-        color: 'grey',
-        fontSize: 16,
+    GenderView: {
+        marginTop: 25
+    },
+    GymidView: {
+        marginTop: 25
+    },
+    WeightView: {
+        marginTop: 25
+    },
+    HeightView: {
+        marginTop: 25
+    },
+    ContactView: {
+        marginTop: 25
+    },
+    buttonView: {
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 55,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    btnNext: {
+        height: 50,
+        width: width * 0.9,
+        backgroundColor: '#4FBCB7',
+        justifyContent: 'center'
+    },
+    txtNext: {
+        fontSize: 14,
         textAlign: 'center',
+        fontWeight: 'bold',
+        color: 'white'
     },
-    txtSignup: {
-        fontSize: 16,
-        
-        color: '#4FBCB7',
-        marginLeft: 5
+    txtCopyright: {
+        textAlign: 'center',
+        fontSize: 12
     },
-
 })
+export default MoreDetails

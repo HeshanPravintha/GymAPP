@@ -8,6 +8,17 @@ import { userLogin  } from '../actions';
 
 class SignIn extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: null,
+            password: '',
+            loader: false,
+            error: false
+
+        };
+    }
     static navigationOptions = {
         header: null,
     };
@@ -19,6 +30,9 @@ class SignIn extends Component {
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <View style={styles.logoView}>
                     <Text style={styles.logoText}>Logo</Text>
+                </View>
+                <View>
+                    <Text style={styles.mainSignIntxt}>Sign Up</Text>
                 </View>
                 <View style={styles.formView}>
                     <View>
@@ -42,7 +56,7 @@ class SignIn extends Component {
                     </View>
                     <TouchableOpacity onPress={()=>{
                         this.props.userLogin()
-                        //this.props.navigation.navigate('Home')
+                        this.props.navigation.navigate('Home')
                     }}>
                     <View style={styles.btnSignIn}>
                         <Text style={styles.txtSignIn}>Sign In</Text>
@@ -56,9 +70,11 @@ class SignIn extends Component {
                     <Text style={styles.txtMsg}>
                         Dont You Have Acocunt ?
                  </Text>
-                    <Text style={styles.txtSignUp}>
-                        SignUp
-                 </Text>
+                 <TouchableOpacity onPress={() => {
+                                this.props.navigation.navigate('SignUp')
+                            }}>
+                    <Text style={styles.txtSignUp}> SignUp</Text>
+                    </TouchableOpacity>
                 </View>
  
                 <View style={{flex: 1, justifyContent: 'flex-end' , marginBottom: 20}}>
@@ -90,6 +106,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 32,
         fontWeight: 'bold'
+    },
+    mainSignIntxt: {
+    fontWeight: 'bold',
+    marginTop: 40,
+    fontSize: 25,
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    justifyContent: 'center',
     },
     formView: {
         marginTop: 20,

@@ -7,7 +7,7 @@ const { height, width } = Dimensions.get('window');
 
 const data =[1,2,3,4]
 
-export default class Home extends Component {
+class Home extends Component {
 
     static navigationOptions = {
         header: null,
@@ -16,12 +16,12 @@ export default class Home extends Component {
     render() {
         return (
             
-            <View style={{ flex: 0 , backgroundColor : "white" }}>
+          <View style={{ flex: 1, backgroundColor: '#fff' }}>
 
 
                 <View style={styles.logotext}>
 
-                    <Text style={styles.logotext}>Logo</Text>
+                    <Text>Logo</Text>
                 </View>
                 <View>
                 <Card style={styles.box3}>
@@ -149,7 +149,7 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
     logotext: {
         fontWeight: 'bold',
-        fontSize: 50,
+        fontSize: 100,
         marginTop: 12,
         backgroundColor: '#fff',
         alignItems: 'center',
@@ -237,3 +237,4 @@ const styles = StyleSheet.create({
 
   },
 })
+export default Home
