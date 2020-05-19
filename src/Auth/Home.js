@@ -4,6 +4,20 @@ import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions, Image 
 import { FlatList } from 'react-native-gesture-handler';
 
 const { height, width } = Dimensions.get('window');
+import * as firebase from 'firebase';
+
+import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
+
 
 const data = [
   {
@@ -22,66 +36,115 @@ const data = [
 
 class Home extends Component {
 
+
+  constructor(props) {
+    super(props);
+
+
+    this.state = {
+      profile: null,
+      loader: true
+    };
+  }
+
   static navigationOptions = {
     header: null,
   };
+
+  componentDidMount() {
+    this.getProfile((res) => {
+      this.setState({
+        loader: false
+      })
+    })
+  }
+
+  getProfile = (callback) => {
+    var ref = firebase.database().ref("Users").child(firebase.auth().currentUser.uid);
+
+    ref.once("value")
+      .then((snapshot) => {
+        var key = snapshot.key; // "ada"
+
+        console.log(snapshot.val(), 'profile eka')
+
+        this.setState({
+          profile: snapshot.val()
+        })
+
+        callback(true)
+      });
+  }
+
 
   render() {
     return (
 
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
 
-        <View style={{height: 200 , width: '100%' , backgroundColor: '#4FBCB7'}}>
-          <View style={{ flex: 1, marginTop: 40, alignSelf: 'center' ,marginBottom : 20}}>
-            <Thumbnail style={{height: 100 , width :100}} source={require('../../Images/logo2.png')} />
+        <View style={{ height: 200, width: '100%', backgroundColor: '#4FBCB7' }}>
+          <View style={{ flex: 1, marginTop: 40, alignSelf: 'center', marginBottom: 20 }}>
+            <Thumbnail style={{ height: 100, width: 100 }} source={require('../../Images/logo2.png')} />
           </View>
-          <View style={{marginTop: 40}}> 
-          <TouchableOpacity onPress={() => {
-            this.props.navigation.navigate('Profile')
-          }}>
-            <Card style={styles.box3}>
-              <CardItem style={styles.box1}>
-                <Left>
-                  <Thumbnail source={require('../../Images/My.jpg')} />
+          <View style={{ marginTop: 40 }}>
+            <TouchableOpacity onPress={() => {
+              this.props.navigation.navigate('Profile' , {profile : this.state.profile})
+            }}>
 
-                  <Body >
+              <Card style={styles.box3}>
+                {this.state.loader ? (
+                  <CardItem style={styles.boxCard}>
+                    <MaterialIndicator color='#4FBCB7' />
+                  </CardItem>
 
-                    <Text>Heshan Pravintha</Text>
-                    <Text note>Colombo, Sri Lanka</Text>
-                  </Body>
-                </Left>
-              </CardItem>
-              <CardItem style={styles.box2}>
-                <Body>
+                ) : (
+                    <View>
+                      <CardItem style={styles.box1}>
+                        <Left>
+                          <Thumbnail source={require('../../Images/My.jpg')} />
 
-                  <Text style={styles.text1}> {`Age \n 25`}
+                          <Body >
 
-                  </Text>
-                </Body>
-                <Body>
+                            <Text>{this.state.profile ? this.state.profile.name : ''}</Text>
+                            <Text note>{this.state.profile ? this.state.profile.city : ''}, {this.state.profile ? this.state.profile.country : ''}</Text>
+                          </Body>
+                        </Left>
+                      </CardItem>
+                      <CardItem style={styles.box2}>
+                        <Body>
 
-                  <Text style={styles.text2}>{`Weight \n 50KG`}
-                  </Text>
-                </Body>
-                <Body>
+                          <Text style={styles.text1}> {`Age \n ${this.state.profile ? this.state.profile.age : ''}`}
 
-                  <Text style={styles.text3}>{`Height \n 5.7in`}
+                          </Text>
+                        </Body>
+                        <Body>
 
-                  </Text>
-                </Body>
-                <Body>
+                          <Text style={styles.text2}>{`Weight \n ${this.state.profile ? this.state.profile.weight : ''} KG`}
+                          </Text>
+                        </Body>
+                        <Body>
 
-                  <Text style={styles.text4}>{`Member Since \n 2017`}
+                          <Text style={styles.text3}>{`Height \n ${this.state.profile ? this.state.profile.height : ''} in`}
 
-                  </Text>
-                </Body>
-              </CardItem>
+                          </Text>
+                        </Body>
+                        <Body>
 
-            </Card>
-          </TouchableOpacity>
+                          <Text style={styles.text4}>{`Member Since \n 2017`}
+
+                          </Text>
+                        </Body>
+                      </CardItem>
+                    </View>
+
+                  )}
+
+
+              </Card>
+            </TouchableOpacity>
+          </View>
         </View>
-        </View> 
-       
+
         <Text style={styles.text5}>Activity Report</Text>
         <View style={{ height: 4, width: 110, backgroundColor: '#4FBCB7', borderRadius: 20 / 2, marginTop: 6, marginLeft: 25 }}></View>
 
@@ -133,37 +196,37 @@ class Home extends Component {
           horizontal={true}
           renderItem={({ item, index }) => {
             return (
-              <TouchableOpacity onPress={()=>{
-                 if(index === 0){
+              <TouchableOpacity onPress={() => {
+                if (index === 0) {
                   this.props.navigation.navigate('Locker')
-                 }else{
+                } else {
                   this.props.navigation.navigate('Pool')
-                 }
+                }
               }}>
-             <View style={{ flexDirection: "row" }}>
-                <Card
-                  style={{
-                    height: 150,
-                    width: 130,
-                    marginTop: 30,
-                    marginRight: 25,
-                    marginLeft: 25,
-                    shadowColor: "#000000",
-                    shadowOpacity: 0.5,
-                    shadowRadius: 5,
-                    shadowOffset: { height: 2, width: 2 }
-                  }}>
-                  <CardItem style={styles.box1}>
-                    <Left>
-                      <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={item.img} />
+                <View style={{ flexDirection: "row" }}>
+                  <Card
+                    style={{
+                      height: 150,
+                      width: 130,
+                      marginTop: 30,
+                      marginRight: 25,
+                      marginLeft: 25,
+                      shadowColor: "#000000",
+                      shadowOpacity: 0.5,
+                      shadowRadius: 5,
+                      shadowOffset: { height: 2, width: 2 }
+                    }}>
+                    <CardItem style={styles.box1}>
+                      <Left>
+                        <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={item.img} />
 
-                    </Left>
+                      </Left>
 
-                  </CardItem>
-                  <Text style={{ fontSize: 15, textAlign: 'center' }}>{item.title}</Text>
+                    </CardItem>
+                    <Text style={{ fontSize: 15, textAlign: 'center' }}>{item.title}</Text>
 
-                </Card>
-                {/* <Card style={{height: 150 ,width: 130 ,marginTop: 30,marginRight :25,marginLeft : 2,shadowColor: "#000000",shadowOpacity: 0.5, shadowRadius: 5,shadowOffset: {height: 2,
+                  </Card>
+                  {/* <Card style={{height: 150 ,width: 130 ,marginTop: 30,marginRight :25,marginLeft : 2,shadowColor: "#000000",shadowOpacity: 0.5, shadowRadius: 5,shadowOffset: {height: 2,
             width: 2}}}>
                          <CardItem style={styles.box1}>
                     <Left>
@@ -175,9 +238,9 @@ class Home extends Component {
                   <Text style={{fontSize: 15 , textAlign : 'center'}}>Pool Info</Text>
                  
                   </Card>  */}
-              </View>
+                </View>
               </TouchableOpacity>
-         
+
 
             )
           }}
@@ -204,6 +267,14 @@ const styles = StyleSheet.create({
 
   box1: {
 
+    marginTop: 8,
+
+    marginRight: 5,
+    marginLeft: 5,
+
+  },
+  boxCard: {
+    height : 140,
     marginTop: 8,
 
     marginRight: 5,
@@ -254,23 +325,23 @@ const styles = StyleSheet.create({
   },
 
   text1: {
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: 'normal',
 
   },
   text2: {
 
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: 'normal',
 
   },
   text3: {
-    fontSize: 10,
+    fontSize: 14,
     fontWeight: 'normal',
 
   },
   text4: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: 'normal',
 
   },
@@ -278,7 +349,7 @@ const styles = StyleSheet.create({
   text5: {
 
     marginLeft: 25,
-    marginTop: 80,
+    marginTop: 100,
     fontWeight: 'normal',
 
   },

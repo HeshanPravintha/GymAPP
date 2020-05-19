@@ -1,9 +1,20 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Container, Item, Input , Thumbnail} from 'native-base'
+import { View, Text, Button, Container, Item, Input, Thumbnail } from 'native-base'
 import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 const { height, width } = Dimensions.get('window');
 
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    MaterialIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+} from 'react-native-indicators';
 
 
 import * as firebase from 'firebase';
@@ -27,30 +38,51 @@ class SignIn extends Component {
         this.state = {
             email: null,
             password: '',
-
+            loginLoader: false,
+            error : false,
+            errorMsg  :''
 
         };
     }
-    userLogin = (email, password) => {
-        try {
-            firebase
-                .auth()
-                .signInWithEmailAndPassword(email, password)
-                .then(res => {
-                    console.log(res.user.email),
-                        this.props.navigation.navigate('Home')
-                });
-        } catch (error) {
-            console.log(error.toString(error));
+    userLogin = async (email, password) => {
+        console.log('login')
+        this.setState({
+            error : false,
+            loginLoader: true
+        })
 
-        }
+       await firebase.auth().signInWithEmailAndPassword(email, password).then(res => {
+            this.setState({
+                loginLoader: false
+            })
+            console.log(res.user.email),
+                this.props.navigation.navigate('Home')
+        }).catch((e) => {
+            console.log(e , 'Error')
+            this.setState(  {
+                loginLoader: false,
+                error : true,
+                errorMsg : e.message
+            })
+        });
+
     };
+
     static navigationOptions = {
         header: null,
     };
 
+    renderErrorModal(){
+        return(
+            <View>
+                <Text style={{marginLeft : 20 , fontSize : 14, color : 'red'}}>
+                    {this.state.errorMsg}
+                </Text>
+            </View>
+        )
+    }
+
     render() {
-        console.log(this.props)
         return (
 
             <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -83,8 +115,13 @@ class SignIn extends Component {
                     </View>
                     <TouchableOpacity onPress={() => this.userLogin(this.state.email, this.state.password)}>
                         <View style={styles.btnSignIn}>
+                            {this.state.loginLoader ? (
+                                <MaterialIndicator color='white' />
+                            ) : (
+                                    <Text style={styles.txtSignIn}>Sign In</Text>
+                                )}
 
-                            <Text style={styles.txtSignIn}>Sign In</Text>
+
                         </View>
                     </TouchableOpacity>
 
@@ -98,6 +135,7 @@ class SignIn extends Component {
                     <TouchableOpacity onPress={() => {
                         this.props.navigation.navigate('SignUp')
                     }}>
+
                         <Text style={styles.txtSignUp}> SignUp</Text>
                     </TouchableOpacity>
                 </View>
@@ -108,6 +146,11 @@ class SignIn extends Component {
                  </Text>
                 </View>
 
+                {this.state.error ? (
+                    this.renderErrorModal()
+                ) : null}
+
+                    
             </ScrollView>
 
 
