@@ -134,7 +134,7 @@ class Pool extends Component {
                 {this.state.loaderData ? (
                     <MaterialIndicator color='#4FBCB7' />
                 ) : (
-                        <View style={{height: 300}}>
+                        <View style={{height: 250}}>
                             <FlatList
 
                                 data={this.state.review}
