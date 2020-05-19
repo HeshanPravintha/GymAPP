@@ -19,18 +19,8 @@ import {
 
 import * as firebase from 'firebase';
 
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyCuRRvfGA3xTDoFyAKxf9uuydpAiLp-x1o",
-    authDomain: "iot-gym-82bbe.firebaseapp.com",
-    databaseURL: "https://iot-gym-82bbe.firebaseio.com",
-    storageBucket: "iot-gym-82bbe.appspot.com",
-    measurementId: "G-RZN473SVN6"
-};
 
-firebase.initializeApp(firebaseConfig);
-
-class SignIn extends Component {
+class AdminLogin extends Component {
 
     constructor(props) {
         super(props);
@@ -56,7 +46,7 @@ class SignIn extends Component {
                 loginLoader: false
             })
             console.log(res.user.email),
-                this.props.navigation.navigate('Home')
+                this.props.navigation.navigate('AdminHome')
         }).catch((e) => {
             console.log(e , 'Error')
             this.setState(  {
@@ -87,13 +77,10 @@ class SignIn extends Component {
 
             <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
                 <View style={{ flex: 1, marginTop: 40, alignSelf: 'center', marginBottom: 20 }}>
-                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('AdminLogin')}> 
                     <Thumbnail style={{ height: 100, width: 100 }} source={require('../../Images/logo.png')} />
-                    </TouchableOpacity>
-               
                 </View>
                 <View>
-                    <Text style={styles.mainSignIntxt}>Sign In</Text>
+                    <Text style={styles.mainSignIntxt}>Admin Portal Sign In</Text>
                 </View>
                 <View style={styles.formView}>
                     <View>
@@ -255,4 +242,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps)(SignIn);
+export default connect(mapStateToProps)(AdminLogin);

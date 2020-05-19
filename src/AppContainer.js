@@ -10,6 +10,9 @@ import ActivityReport from './Auth/ActivityReport'
 import Loading from '../Loading'
 import Locker from './Auth/Locker'
 import Pool from './Auth/Pool'
+import AdminLogin from './Auth/AdminLogin'
+import AdminHome from './Auth/AdminHome'
+import UserReg from './Auth/UserReg'
 
 const HomeStack = createStackNavigator(
     {
@@ -19,6 +22,9 @@ const HomeStack = createStackNavigator(
         MoreDetails,
         Home,
         Profile,
+        AdminLogin,
+        UserReg,
+        AdminHome,
         Locker,
         Pool,
         ActivityReport,
