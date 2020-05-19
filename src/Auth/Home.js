@@ -198,7 +198,7 @@ class Home extends Component {
             return (
               <TouchableOpacity onPress={() => {
                 if (index === 0) {
-                  this.props.navigation.navigate('Locker')
+                  this.props.navigation.navigate('Locker' , {profile : this.state.profile})
                 } else {
                   this.props.navigation.navigate('Pool')
                 }
