@@ -7,15 +7,18 @@ const { height, width } = Dimensions.get('window');
 
 const data = [
   {
-  title: 'First',
-  img : '../../Images/My.jpg'
-}, {
-  title: 'Second'
-}, 
-{ title: 'Third' }, 
-{
-  title: 'Fourth'
-}]
+    title: 'Locker',
+    img: require('../../Images/lock.png')
+  },
+  {
+    title: 'Pool Info',
+    img: require('../../Images/pool.png')
+  },
+  {
+    title: 'Payment',
+    img: require('../../Images/pay.png')
+  }
+]
 
 class Home extends Component {
 
@@ -28,12 +31,11 @@ class Home extends Component {
 
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
 
-
-        <View>
-
-          <Text style={styles.logotext}>Logo</Text>
-        </View>
-        <View>
+        <View style={{height: 200 , width: '100%' , backgroundColor: '#4FBCB7'}}>
+          <View style={{ flex: 1, marginTop: 40, alignSelf: 'center' ,marginBottom : 20}}>
+            <Thumbnail style={{height: 100 , width :100}} source={require('../../Images/logo2.png')} />
+          </View>
+          <View style={{marginTop: 40}}> 
           <TouchableOpacity onPress={() => {
             this.props.navigation.navigate('Profile')
           }}>
@@ -78,6 +80,8 @@ class Home extends Component {
             </Card>
           </TouchableOpacity>
         </View>
+        </View> 
+       
         <Text style={styles.text5}>Activity Report</Text>
         <View style={{ height: 4, width: 110, backgroundColor: '#4FBCB7', borderRadius: 20 / 2, marginTop: 6, marginLeft: 25 }}></View>
 
@@ -94,7 +98,7 @@ class Home extends Component {
             }}>
               <CardItem style={styles.box1}>
                 <Left>
-                  <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={require('../../Images/My.jpg')} />
+                  <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={require('../../Images/timer.png')} />
 
                 </Left>
 
@@ -112,7 +116,7 @@ class Home extends Component {
           }}>
             <CardItem style={styles.box1}>
               <Left>
-                <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={require('../../Images/My.jpg')} />
+                <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={require('../../Images/fav.png')} />
 
               </Left>
 
@@ -121,14 +125,22 @@ class Home extends Component {
             <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>500 cl</Text>
           </Card>
         </View>
-        <Text style={styles.text5}>Access Features</Text>
+        <Text style={styles.activityFeatures}>Access Features</Text>
         <View style={{ height: 4, width: 120, backgroundColor: '#4FBCB7', borderRadius: 20 / 2, marginTop: 6, marginLeft: 25 }}></View>
         <FlatList
           data={data}
+          showsHorizontalScrollIndicator={false}
           horizontal={true}
           renderItem={({ item, index }) => {
             return (
-              <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity onPress={()=>{
+                 if(index === 0){
+                  this.props.navigation.navigate('Locker')
+                 }else{
+                  this.props.navigation.navigate('Pool')
+                 }
+              }}>
+             <View style={{ flexDirection: "row" }}>
                 <Card
                   style={{
                     height: 150,
@@ -143,7 +155,7 @@ class Home extends Component {
                   }}>
                   <CardItem style={styles.box1}>
                     <Left>
-                      <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={require(item.img)} />
+                      <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={item.img} />
 
                     </Left>
 
@@ -164,6 +176,8 @@ class Home extends Component {
                  
                   </Card>  */}
               </View>
+              </TouchableOpacity>
+         
 
             )
           }}
@@ -264,7 +278,14 @@ const styles = StyleSheet.create({
   text5: {
 
     marginLeft: 25,
-    marginTop: 30,
+    marginTop: 80,
+    fontWeight: 'normal',
+
+  },
+  activityFeatures: {
+
+    marginLeft: 25,
+    marginTop: 20,
     fontWeight: 'normal',
 
   },

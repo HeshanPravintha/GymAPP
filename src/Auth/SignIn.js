@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Button, Container, Item, Input } from 'native-base'
+import { View, Text, Button, Container, Item, Input , Thumbnail} from 'native-base'
 import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 const { height, width } = Dimensions.get('window');
@@ -15,9 +15,9 @@ const firebaseConfig = {
     databaseURL: "https://iot-gym-82bbe.firebaseio.com",
     storageBucket: "iot-gym-82bbe.appspot.com",
     measurementId: "G-RZN473SVN6"
-  };
-  
-  firebase.initializeApp(firebaseConfig);
+};
+
+firebase.initializeApp(firebaseConfig);
 
 class SignIn extends Component {
 
@@ -27,24 +27,24 @@ class SignIn extends Component {
         this.state = {
             email: null,
             password: '',
-            
+
 
         };
     }
-    userLogin = (email,password) => {
+    userLogin = (email, password) => {
         try {
             firebase
-               .auth()
-               .signInWithEmailAndPassword(email, password)
-               .then(res => {
-                   console.log(res.user.email),
-                   this.props.navigation.navigate('Home')
-            });
-      } catch (error) {
+                .auth()
+                .signInWithEmailAndPassword(email, password)
+                .then(res => {
+                    console.log(res.user.email),
+                        this.props.navigation.navigate('Home')
+                });
+        } catch (error) {
             console.log(error.toString(error));
-         
-          }
-        };
+
+        }
+    };
     static navigationOptions = {
         header: null,
     };
@@ -54,8 +54,8 @@ class SignIn extends Component {
         return (
 
             <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-                <View style={styles.logoView}>
-                    <Text style={styles.logoText}>Logo</Text>
+                <View style={{ flex: 1, marginTop: 40, alignSelf: 'center', marginBottom: 20 }}>
+                    <Thumbnail style={{ height: 100, width: 100 }} source={require('../../Images/logo.png')} />
                 </View>
                 <View>
                     <Text style={styles.mainSignIntxt}>Sign In</Text>
@@ -64,13 +64,13 @@ class SignIn extends Component {
                     <View>
                         <Item>
                             <Input placeholder='Email' onChangeText={email => this.setState({ email })}
-             />
+                            />
                         </Item>
                     </View>
 
                     <View style={styles.inputPasswordView}>
                         <Item>
-                            <Input placeholder='Password' secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
+                            <Input placeholder='Password' secureTextEntry={true} onChangeText={password => this.setState({ password })} />
                         </Item>
                     </View>
 
@@ -81,13 +81,13 @@ class SignIn extends Component {
                     <View style={styles.btnForgetPw}>
                         <Text style={styles.txtForgetPw}>Forget Password</Text>
                     </View>
-                    <TouchableOpacity onPress={() => this.userLogin(this.state.email, this.state.password )}>
-                    <View style={styles.btnSignIn}>
-                        
-                        <Text style={styles.txtSignIn}>Sign In</Text>
-                    </View>
+                    <TouchableOpacity onPress={() => this.userLogin(this.state.email, this.state.password)}>
+                        <View style={styles.btnSignIn}>
+
+                            <Text style={styles.txtSignIn}>Sign In</Text>
+                        </View>
                     </TouchableOpacity>
-                  
+
 
                 </View>
 
@@ -95,16 +95,16 @@ class SignIn extends Component {
                     <Text style={styles.txtMsg}>
                         Dont You Have Acocunt ?
                  </Text>
-                 <TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate('SignUp')
-                            }}>
-                    <Text style={styles.txtSignUp}> SignUp</Text>
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.navigate('SignUp')
+                    }}>
+                        <Text style={styles.txtSignUp}> SignUp</Text>
                     </TouchableOpacity>
                 </View>
- 
-                <View style={{flex: 1, justifyContent: 'flex-end' , marginBottom: 20}}>
+
+                <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 20 }}>
                     <Text style={styles.txtCopyright}>
-                            All Rights Reserved By Gym App
+                        All Rights Reserved By Gym App
                  </Text>
                 </View>
 
@@ -133,12 +133,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     mainSignIntxt: {
-    fontWeight: 'bold',
-    marginTop: 40,
-    fontSize: 25,
-    backgroundColor: '#fff',
-    textAlign: 'center',
-    justifyContent: 'center',
+        fontWeight: 'bold',
+        marginTop: 40,
+        fontSize: 25,
+        backgroundColor: '#fff',
+        textAlign: 'center',
+        justifyContent: 'center',
     },
     formView: {
         marginTop: 20,
@@ -204,9 +204,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-      test: state.user.redux,
+        test: state.user.redux,
     };
-  };
-  
+};
 
-export default connect(mapStateToProps, )(SignIn);
+
+export default connect(mapStateToProps)(SignIn);
