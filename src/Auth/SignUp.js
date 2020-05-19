@@ -5,7 +5,10 @@ import { connect } from 'react-redux'
 
 const { height, width } = Dimensions.get('window');
 
-import { createUser , saveUserData } from '../actions';
+import * as firebase from 'firebase';
+
+
+
 
 class SignUp extends Component {
 
@@ -13,13 +16,25 @@ class SignUp extends Component {
         super(props);
 
         this.state = {
+            name: null,
             email: null,
             password: '',
-            loader: false,
-            error: false
 
         };
     }
+    SignUp = (email, password) => {
+        try {
+          firebase
+              .auth()
+              .createUserWithEmailAndPassword(email, password)
+              .then(user => { 
+                     console.log(user);
+                     this.props.navigation.navigate('MoreDetails',{  name: this.state.name })
+               });
+    } catch (error) {
+          console.log(error.toString(error));
+        }
+      };
     static navigationOptions = {
         header: null,
     };
@@ -38,27 +53,29 @@ class SignUp extends Component {
                 <View style={styles.formView}>
                 <View>
                         <Item>
-                            <Input placeholder='Name' />
+                            <Input placeholder='Name' onChangeText={name => {
+                                    this.setState({
+                                        name: name
+                                    })
+                                }}/>
                         </Item>
                     </View>
                     <View style={styles.inputEmailView}>
                         <Item>
-                            <Input placeholder='Email' />
+                            <Input placeholder='Email' onChangeText={email => this.setState({ email })} />
                         </Item>
                     </View>
 
                     <View style={styles.inputPasswordView}>
                         <Item>
-                            <Input placeholder='Password' secureTextEntry={true} />
+                            <Input placeholder='Password' secureTextEntry={true} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
                         </Item>
                     </View>
 
                 </View>
 
                 <View style={styles.buttonView}>
-                        <TouchableOpacity onPress={() => {
-                                this.props.navigation.navigate('MoreDetails')
-                            }}>
+                        <TouchableOpacity onPress={() => this.SignUp(this.state.email, this.state.password)}>
                         <View style={styles.btnSignUp}>
                         <Text style={styles.txtSignUp}>Sign Up</Text>
                         </View>
@@ -177,4 +194,4 @@ const mapStateToProps = state => {
   
 
 
-  export default connect(mapStateToProps, { createUser , saveUserData })(SignUp);
+  export default connect(mapStateToProps,) (SignUp)

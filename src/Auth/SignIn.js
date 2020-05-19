@@ -4,7 +4,20 @@ import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 
 import { connect } from 'react-redux'
 const { height, width } = Dimensions.get('window');
 
-import { userLogin  } from '../actions';
+
+
+import * as firebase from 'firebase';
+
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyCuRRvfGA3xTDoFyAKxf9uuydpAiLp-x1o",
+    authDomain: "iot-gym-82bbe.firebaseapp.com",
+    databaseURL: "https://iot-gym-82bbe.firebaseio.com",
+    storageBucket: "iot-gym-82bbe.appspot.com",
+    measurementId: "G-RZN473SVN6"
+  };
+  
+  firebase.initializeApp(firebaseConfig);
 
 class SignIn extends Component {
 
@@ -14,11 +27,24 @@ class SignIn extends Component {
         this.state = {
             email: null,
             password: '',
-            loader: false,
-            error: false
+            
 
         };
     }
+    userLogin = (email,password) => {
+        try {
+            firebase
+               .auth()
+               .signInWithEmailAndPassword(email, password)
+               .then(res => {
+                   console.log(res.user.email),
+                   this.props.navigation.navigate('Home')
+            });
+      } catch (error) {
+            console.log(error.toString(error));
+         
+          }
+        };
     static navigationOptions = {
         header: null,
     };
@@ -27,23 +53,24 @@ class SignIn extends Component {
         console.log(this.props)
         return (
 
-            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
                 <View style={styles.logoView}>
                     <Text style={styles.logoText}>Logo</Text>
                 </View>
                 <View>
-                    <Text style={styles.mainSignIntxt}>Sign Up</Text>
+                    <Text style={styles.mainSignIntxt}>Sign In</Text>
                 </View>
                 <View style={styles.formView}>
                     <View>
                         <Item>
-                            <Input placeholder='Email' />
+                            <Input placeholder='Email' onChangeText={email => this.setState({ email })}
+             />
                         </Item>
                     </View>
 
                     <View style={styles.inputPasswordView}>
                         <Item>
-                            <Input placeholder='Password' secureTextEntry={true} />
+                            <Input placeholder='Password' secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
                         </Item>
                     </View>
 
@@ -54,11 +81,9 @@ class SignIn extends Component {
                     <View style={styles.btnForgetPw}>
                         <Text style={styles.txtForgetPw}>Forget Password</Text>
                     </View>
-                    <TouchableOpacity onPress={()=>{
-                        this.props.userLogin()
-                        this.props.navigation.navigate('Home')
-                    }}>
+                    <TouchableOpacity onPress={() => this.userLogin(this.state.email, this.state.password )}>
                     <View style={styles.btnSignIn}>
+                        
                         <Text style={styles.txtSignIn}>Sign In</Text>
                     </View>
                     </TouchableOpacity>
@@ -83,7 +108,7 @@ class SignIn extends Component {
                  </Text>
                 </View>
 
-            </View>
+            </ScrollView>
 
 
         );
@@ -184,4 +209,4 @@ const mapStateToProps = state => {
   };
   
 
-export default connect(mapStateToProps, {userLogin})(SignIn);
+export default connect(mapStateToProps, )(SignIn);

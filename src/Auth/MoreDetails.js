@@ -3,22 +3,56 @@ import { View, Text, Button, Container, Item, Input } from 'native-base'
 import { StyleSheet, TextInput, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 
 const { height, width } = Dimensions.get('window');
-
+import * as firebase from 'firebase';
 
 class MoreDetails extends Component {
+    
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            age: null,
+            gender: null,
+            gymid: null,
+            weight: null,
+            height: null,
+            contactno: null,
+        };
+    }
 
     static navigationOptions = {
         header: null,
     };
-
+    
+        saveUserData(userId, age, gender, gymid, weight, height, contactno) {
+            firebase.database().ref('users/' + userId).set({
+              Age: age,
+              Gender: gender,
+              GymID: gymid,
+              Weight: weight,
+              Height: height,
+              ContactNo: contactno,
+            }, { merge: true }).then((res) => {
+                console.log(res, 'User Data Saved created')
+                callback('res', null)
+            
+              }).catch((err) => {
+                console.log('Error writing document : ', err)
+                callback(null, err)
+              
+              
+            });
+          }   
+      
     render() {
+        const name = this.props.navigation.getParam('name', null);
         console.log(this.props)
         return (
 
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
 
                 <View>
-                    <Text style={styles.hellotext}>Hello Heshan,</Text>
+                    <Text style={styles.hellotext}>Hello , {name}</Text>
                 </View>
 
                 <View style={styles.welcometext}>
@@ -27,32 +61,56 @@ class MoreDetails extends Component {
                 <View style={styles.formView}>
                     <View style={styles.NameView}>
                         <Item regular>
-                            <Input placeholder='Name' />
+                            <Input placeholder='Age' onChangeText={age=>{
+                                    this.setState({
+                                        age : age
+                                    })
+                                }} />
                         </Item>
                     </View>
                     <View style={styles.GenderView}>
                         <Item regular>
-                            <Input placeholder='Gender' />
+                            <Input placeholder='Gender' onChangeText={gender=>{
+                                    this.setState({
+                                        gender : gender
+                                    })
+                                }}/>
                         </Item>
                     </View>
                     <View style={styles.GymidView}>
                         <Item regular>
-                            <Input placeholder='Gym ID' />
+                            <Input placeholder='Gym ID' onChangeText={gymid=>{
+                                    this.setState({
+                                        gymid : gymid
+                                    })
+                                }} />
                         </Item>
                     </View>
                     <View style={styles.WeightView}>
                         <Item regular>
-                            <Input placeholder='Weight' />
+                            <Input placeholder='Weight' onChangeText={weight=>{
+                                    this.setState({
+                                        weight : weight
+                                    })
+                                }}/>
                         </Item>
                     </View>
                     <View style={styles.HeightView}>
                         <Item regular>
-                            <Input placeholder='Height' />
+                            <Input placeholder='Height' onChangeText={height=>{
+                                    this.setState({
+                                        height : height
+                                    })
+                                }}/>
                         </Item>
                     </View>
                     <View style={styles.ContactView}>
                         <Item regular>
-                            <Input placeholder='Contact No' />
+                            <Input placeholder='Contact No' onChangeText={contactno=>{
+                                    this.setState({
+                                        contactno : contactno
+                                    })
+                                }}/>
                         </Item>
                     </View>
                     
@@ -62,9 +120,26 @@ class MoreDetails extends Component {
                 </View>
 
                 <View style={styles.buttonView}>
-                    <TouchableOpacity onPress={() => {
-                        this.props.navigation.navigate('MoreDetails')
-                    }}>
+                    <TouchableOpacity onPress={()=>{
+                            this.setState({
+                                loader : true,
+                                error : false
+                            })
+                            this.props.saveUserData(this.state.age , this.state.gender , this.state.gymid , this.state.weight , this.state.height , (res , err)=>{
+                                if(res){
+                                    this.props.navigation.navigate('Home')
+                                    this.setState({
+                                        loader : false
+                                    })
+                                }else{
+                                    this.setState({
+                                        error : true
+                                    })
+                                }
+                                
+                            })
+                           
+                        }}>
                         <View style={styles.btnNext}>
                             <Text style={styles.txtNext}>Next</Text>
                         </View>
@@ -88,7 +163,7 @@ class MoreDetails extends Component {
 
 const styles = StyleSheet.create({
     hellotext: {
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         fontSize: 30,
         marginTop: 45,
         marginLeft: 20,
@@ -100,7 +175,7 @@ const styles = StyleSheet.create({
     welcometext: {
         marginTop: 4,
         marginLeft: 20,
-        fontSize: 2,
+        //fontSize: 2,
         backgroundColor: '#fff',
         justifyContent: 'center',
     },

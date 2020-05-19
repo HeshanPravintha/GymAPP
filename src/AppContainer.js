@@ -5,6 +5,8 @@ import SignIn from './Auth/SignIn'
 import SignUp from './Auth/SignUp'
 import MoreDetails from './Auth/MoreDetails'
 import Home from './Auth/Home'
+import Profile from './Auth/Profile'
+import ActivityReport from './Auth/ActivityReport'
 import Loading from '../Loading'
 
 const HomeStack = createStackNavigator(
@@ -14,6 +16,8 @@ const HomeStack = createStackNavigator(
         SignUp,
         MoreDetails,
         Home,
+        Profile,
+        ActivityReport,
         
     }
 )
