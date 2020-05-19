@@ -10,7 +10,8 @@ export default class AdminHome extends Component {
 
         this.state = {
             profile: null,
-            loader: true
+            loader: true,
+            sucess :false
         };
     }
 
@@ -18,6 +19,26 @@ export default class AdminHome extends Component {
         header: null,
     };
 
+    componentDidMount(){
+        const sucess = this.props.navigation.getParam('sucess', '')
+        this.setState({
+            sucess : true
+        })
+    }
+
+    renderSucessModal(){
+        return(
+            <View>
+                <Text style={{textAlign : 'center'}}>User Register Sucessfull</Text>
+            </View>
+        )
+    }
+
+    componentWillUnmount(){
+        this.setState({
+            sucess :false
+        })
+    }
 
     render() {
         return (
@@ -50,6 +71,12 @@ export default class AdminHome extends Component {
 
                         </View>
                     </View>
+
+                    {this.state.sucess ? (
+                        this.renderSucessModal()
+                    ) : (
+                        null
+                    )}
 
 
                 </ScrollView>
