@@ -43,7 +43,8 @@ class Home extends Component {
 
     this.state = {
       profile: null,
-      loader: true
+      loader: true,
+      online_Count: 0
     };
   }
 
@@ -52,6 +53,13 @@ class Home extends Component {
   };
 
   componentDidMount() {
+
+    this.getActiveCount(() => {
+      this.setState({
+        loader: false
+      })
+    });
+
     this.getProfile((res) => {
       this.setState({
         loader: false
@@ -77,6 +85,34 @@ class Home extends Component {
   }
 
 
+
+  getActiveCount(callback) {
+    var ref = firebase.database().ref("Online_count");
+
+    ref.once("value")
+      .then((snapshot) => {
+        var key = snapshot.key; // "ada"
+
+        console.log(snapshot.val(), 'online count eka')
+
+        this.setState({
+          online_Count: snapshot.val()
+        })
+        // snapshot.forEach((item) => {
+        //     console.log(item.val())
+        //     if (item.val() === this.state.profile.rfid_card_no) {
+        //         console.log('Match')
+        //         this.state.attendance_log.push(item.key)
+        //     }
+
+        //     callback(true)
+        // });
+
+        callback(true)
+      });
+  }
+
+
   render() {
     return (
 
@@ -88,7 +124,7 @@ class Home extends Component {
           </View>
           <View style={{ marginTop: 40 }}>
             <TouchableOpacity onPress={() => {
-              this.props.navigation.navigate('Profile' , {profile : this.state.profile})
+              this.props.navigation.navigate('Profile', { profile: this.state.profile })
             }}>
 
               <Card style={styles.box3}>
@@ -177,15 +213,19 @@ class Home extends Component {
               width: 2
             }
           }}>
+
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Active')}>
             <CardItem style={styles.box1}>
               <Left>
                 <Thumbnail style={{ alignItems: "center", marginTop: 0.1, marginLeft: 15 }} source={require('../../Images/fav.png')} />
-
+                {/* <Text style={{ alignItems :'center', fontSize: 40, textAlign: 'center' , fontWeight : 'bold' }}>{this.state.online_Count}</Text> */}
               </Left>
 
             </CardItem>
-            <Text style={{ fontSize: 15, textAlign: 'center' }}>Calories</Text>
-            <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>500 cl</Text>
+            {/* <Text style={{ fontSize: 15, textAlign: 'center' }}>Calories</Text> */}
+            <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>Active Users</Text>
+            </TouchableOpacity>
+          
           </Card>
         </View>
         <Text style={styles.activityFeatures}>Access Features</Text>
@@ -198,7 +238,7 @@ class Home extends Component {
             return (
               <TouchableOpacity onPress={() => {
                 if (index === 0) {
-                  this.props.navigation.navigate('Locker' , {profile : this.state.profile})
+                  this.props.navigation.navigate('Locker', { profile: this.state.profile })
                 } else {
                   this.props.navigation.navigate('Pool')
                 }
@@ -274,7 +314,7 @@ const styles = StyleSheet.create({
 
   },
   boxCard: {
-    height : 140,
+    height: 140,
     marginTop: 8,
 
     marginRight: 5,
